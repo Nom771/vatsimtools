@@ -80,13 +80,29 @@ namespace VatTools
             DataStorage.AutoRefresh = true;
             while (DataStorage.AutoRefresh)
             {
+                int delay = 30000;
+                if (int.TryParse(RefreshDelay.Text, out delay))
+                {
+                    if (delay <= 1)
+                    {
+                        delay = 30000;
+                    }
+                    else
+                    {
+                        delay *= 1000;
+                    }
+                }
+                else
+                {
+                    delay = 30000;
+                }
                 if (string.IsNullOrWhiteSpace(FrequencyBox.Text) || FrequencyBox.Text.Length < 6) return;
                 FrequencyChange.Content = "Updating...";
                 Datafeed.DataRetrieval(FrequencyBox.Text);
                 FrequencyChange.Content = "Update Frequency";
                 FreqInfoGrid.ItemsSource = DataStorage.PilotList;
                 ControllerListGrid.ItemsSource = DataStorage.ControllerList;
-                await Task.Delay(30000);
+                await Task.Delay(delay);
             }
         }
         private void AutoRefresh_OnUnchecked(object sender, RoutedEventArgs e)
