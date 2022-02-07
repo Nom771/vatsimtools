@@ -27,6 +27,7 @@ namespace VatTools
         public MainPage()
         {
             this.InitializeComponent();
+            ContentFrame.Navigate(typeof(FrequencyManager));
         }
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
