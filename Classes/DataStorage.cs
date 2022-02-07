@@ -9,6 +9,7 @@ namespace VatTools
 {
     public class DataStorage
     {
+        public static ObservableCollection<FIR> FIRList = new ObservableCollection<FIR>();
         public static ObservableCollection<Root> ControllersOnFrequency = new ObservableCollection<Root>();
         public static ObservableCollection<ControllerInfo> ControllerList = new ObservableCollection<ControllerInfo>();
         public static ObservableCollection<Root> PilotsOnFrequency = new ObservableCollection<Root>();

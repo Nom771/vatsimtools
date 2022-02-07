@@ -136,6 +136,7 @@
     <Compile Include="Classes\DataStorage.cs" />
     <Compile Include="Classes\Facility.cs" />
     <Compile Include="Classes\FeedRoot.cs" />
+    <Compile Include="Classes\FIR.cs" />
     <Compile Include="Classes\FlightPlan.cs" />
     <Compile Include="FrequencyManager.xaml.cs">
       <DependentUpon>FrequencyManager.xaml</DependentUpon>

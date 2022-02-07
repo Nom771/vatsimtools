@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Windows.Data.Json;
+using Windows.UI.Xaml.Shapes;
 
 namespace VatTools
 {
@@ -20,6 +21,9 @@ namespace VatTools
     {
         public static void DataRetrieval(string FrequencyBoxText)
         {
+            /*
+             * MASSIVE credit is due to Marvin K (https://github.com/marvk/vatprism) for assistance with FIR calculation methods
+             */
             WebClient client = new WebClient();
             DataStorage.PilotList.Clear();
             DataStorage.PilotsOnFrequency.Clear();
@@ -27,6 +31,7 @@ namespace VatTools
             DataStorage.ControllersOnFrequency.Clear();
             DataStorage.TranscieverRootData.Clear();
             DataStorage.FullDatafeed = null;
+            Debug.WriteLine(DataStorage.FIRList.ElementAt(1).firName);
             string MainDataFeed = "https://data.vatsim.net/v3/vatsim-data.json";
             string TranscieverFeed = "https://data.vatsim.net/v3/transceivers-data.json";
             var val = client.DownloadString(TranscieverFeed);
@@ -60,6 +65,20 @@ namespace VatTools
                         if (DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign) != null)
                         {
                             var PilotToAdd = DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign);
+                            /*if (IsPointInsidePolygon(
+                                    DataStorage.FIRList.FirstOrDefault(cs => cs.firName == "KZTL").firPoints,
+                                    new PointF(Convert.ToSingle(PilotToAdd.Latitude),
+                                        Convert.ToSingle(PilotToAdd.Longitude))))
+                            {
+                                if (PilotToAdd.FlightPlan == null || string.IsNullOrWhiteSpace(PilotToAdd.FlightPlan.AircraftFaa))
+                                {
+                                    DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, "NOFP", PilotToAdd.Altitude, PilotToAdd.Groundspeed, "UNK", "NOFP", "NOFP"));
+                                }
+                                else
+                                {
+                                    DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, PilotToAdd.FlightPlan.AssignedTransponder, PilotToAdd.Altitude, PilotToAdd.Groundspeed, PilotToAdd.FlightPlan.AircraftFaa, PilotToAdd.FlightPlan.Departure, PilotToAdd.FlightPlan.Arrival));
+                                }
+                            }*/
                             if (PilotToAdd.FlightPlan == null || string.IsNullOrWhiteSpace(PilotToAdd.FlightPlan.AircraftFaa))
                             {
                                 DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, "NOFP", PilotToAdd.Altitude, PilotToAdd.Groundspeed, "UNK", "NOFP", "NOFP"));
@@ -80,6 +99,14 @@ namespace VatTools
                     }
                 }
             }
+        }
+        public static bool IsPointInsidePolygon(PointF[] polygon, PointF point)
+        {
+            var path = new GraphicsPath();
+            path.AddPolygon(polygon);
+            
+            var region = new Region(path);
+            return region.IsVisible(point);
         }
     }
 }
