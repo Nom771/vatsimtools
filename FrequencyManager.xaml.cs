@@ -5,6 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using System.Timers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -72,6 +74,24 @@ namespace VatTools
             DataStorage.ControllersOnFrequency.Clear();
             FreqInfoGrid.ItemsSource = DataStorage.PilotList;
             ControllerListGrid.ItemsSource = DataStorage.ControllerList;
+        }
+        private async void AutoRefresh_OnChecked(object sender, RoutedEventArgs e)
+        {
+            DataStorage.AutoRefresh = true;
+            while (DataStorage.AutoRefresh)
+            {
+                if (string.IsNullOrWhiteSpace(FrequencyBox.Text) || FrequencyBox.Text.Length < 6) return;
+                FrequencyChange.Content = "Updating...";
+                Datafeed.DataRetrieval(FrequencyBox.Text);
+                FrequencyChange.Content = "Update Frequency";
+                FreqInfoGrid.ItemsSource = DataStorage.PilotList;
+                ControllerListGrid.ItemsSource = DataStorage.ControllerList;
+                await Task.Delay(30000);
+            }
+        }
+        private void AutoRefresh_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            DataStorage.AutoRefresh = false;
         }
     }
 }

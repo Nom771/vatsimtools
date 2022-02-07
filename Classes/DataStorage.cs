@@ -15,5 +15,6 @@ namespace VatTools
         public static ObservableCollection<PilotInfo> PilotList = new ObservableCollection<PilotInfo>();
         public static List<Root> TranscieverRootData = new List<Root>();
         public static FeedRoot FullDatafeed = new FeedRoot();
+        public static bool AutoRefresh = false;
     }
 }
