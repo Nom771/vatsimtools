@@ -10,7 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using Windows.Foundation;
 using System.Drawing.Drawing2D;
 using Windows.Data.Json;
 using Windows.UI.Xaml.Shapes;
@@ -66,11 +66,8 @@ namespace VatTools
                             var PilotToAdd = DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign);
                             if(firFence != null)
                             {
-                                Debug.WriteLine(firFence);
                                 if (IsInPolygon(
-                                    DataStorage.FIRList.FirstOrDefault(cs => cs.firName == firFence).firPoints,
-                                    new PointF(Convert.ToSingle(PilotToAdd.Latitude),
-                                    Convert.ToSingle(PilotToAdd.Longitude))))
+                                        DataStorage.FIRList.FirstOrDefault(cs => cs.firName == firFence).firPoints, new Point(PilotToAdd.Latitude, PilotToAdd.Longitude)))
                                 {
                                     if (PilotToAdd.FlightPlan == null || string.IsNullOrWhiteSpace(PilotToAdd.FlightPlan.AircraftFaa))
                                     {
@@ -106,7 +103,7 @@ namespace VatTools
             }
         }
         // Credits for the PointInPolygon method: https://stackoverflow.com/questions/4243042/c-sharp-point-in-polygon (meowNET's reply) 
-        public static bool IsInPolygon(PointF[] polygon, PointF testPoint)
+        public static bool IsInPolygon(Point[] polygon, Point testPoint)
         {
             bool result = false;
             int j = polygon.Count() - 1;

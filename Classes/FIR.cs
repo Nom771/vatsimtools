@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using Windows.Foundation;
 using System.Drawing.Drawing2D;
 
 namespace VatTools
@@ -11,8 +11,8 @@ namespace VatTools
     public class FIR
     {
         public string firName { get; set; }
-        public PointF[] firPoints { get; set; }
-        public FIR(string fn, PointF[] points)
+        public Point[] firPoints { get; set; }
+        public FIR(string fn, Point[] points)
         {
             firName = fn;
             firPoints = points;

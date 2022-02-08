@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Drawing;
+using System.Windows;
 using System.Text.RegularExpressions;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
+using Windows.Foundation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,7 +34,7 @@ namespace VatTools
             {
                 string line;
                 string firName = null;
-                List<PointF> pts = new List<PointF>();
+                List<Point> pts = new List<Point>();
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (Regex.IsMatch(line, @"[a-zA-Z]") && firName == null)
@@ -62,11 +63,10 @@ namespace VatTools
                     else
                     {
                         var splits = line.Split("|");
-                        pts.Add(new PointF(float.Parse(splits[0]), float.Parse(splits[1])));
+                        pts.Add(new Point(double.Parse(splits[0]), double.Parse(splits[1])));
                     }
                 }
             }
-            //
             Listener.ThemeChanged += Listener_ThemeChanged;
             switch (Listener.CurrentThemeName)
             {
