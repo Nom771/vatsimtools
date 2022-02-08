@@ -31,7 +31,6 @@ namespace VatTools
             DataStorage.ControllersOnFrequency.Clear();
             DataStorage.TranscieverRootData.Clear();
             DataStorage.FullDatafeed = null;
-            Debug.WriteLine(DataStorage.FIRList.ElementAt(1).firName);
             string MainDataFeed = "https://data.vatsim.net/v3/vatsim-data.json";
             string TranscieverFeed = "https://data.vatsim.net/v3/transceivers-data.json";
             var val = client.DownloadString(TranscieverFeed);
@@ -65,8 +64,8 @@ namespace VatTools
                         if (DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign) != null)
                         {
                             var PilotToAdd = DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign);
-                            /*if (IsPointInsidePolygon(
-                                    DataStorage.FIRList.FirstOrDefault(cs => cs.firName == "KZTL").firPoints,
+                            /*if (IsInPolygon(
+                                    DataStorage.FIRList.FirstOrDefault(cs => cs.firName == "NAT").firPoints,
                                     new PointF(Convert.ToSingle(PilotToAdd.Latitude),
                                         Convert.ToSingle(PilotToAdd.Longitude))))
                             {
@@ -100,13 +99,22 @@ namespace VatTools
                 }
             }
         }
-        public static bool IsPointInsidePolygon(PointF[] polygon, PointF point)
+        public static bool IsInPolygon(PointF[] poly, PointF point)
         {
-            var path = new GraphicsPath();
-            path.AddPolygon(polygon);
-            
-            var region = new Region(path);
-            return region.IsVisible(point);
+            var coef = poly.Skip(1).Select((p, i) =>
+                    (point.Y - poly[i].Y) * (p.X - poly[i].X)
+                    - (point.X - poly[i].X) * (p.Y - poly[i].Y))
+                .ToList();
+
+            if (coef.Any(p => p == 0))
+                return true;
+
+            for (int i = 1; i < coef.Count(); i++)
+            {
+                if (coef[i] * coef[i - 1] < 0)
+                    return false;
+            }
+            return true;
         }
     }
 }

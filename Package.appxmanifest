@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="9eeb7d42-592e-4fcb-b5f3-6f6c0498535b"
-    Publisher="CN=Ryan"
-    Version="1.0.3.0" />
+    Name="9444VATTools.VATTools"
+    Publisher="CN=416CF92B-691D-490F-84A3-0048D650FFCA"
+    Version="1.0.5.0" />
 
-  <mp:PhoneIdentity PhoneProductId="9eeb7d42-592e-4fcb-b5f3-6f6c0498535b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="822c0195-5fe1-4ee5-a1fa-c3ad2b74b023" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>VatTools</DisplayName>
-    <PublisherDisplayName>miked</PublisherDisplayName>
+    <DisplayName>VATTools</DisplayName>
+    <PublisherDisplayName>VATTools</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,13 +32,14 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="VatTools.App">
       <uap:VisualElements
-        DisplayName="VatTools"
+        DisplayName="VATTools"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\airplane-icon-png-2503.png"
         Description="Vatsim tools for controllers"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
       </uap:VisualElements>
     </Application>
   </Applications>
