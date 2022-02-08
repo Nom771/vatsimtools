@@ -1,22 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using System.Timers;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,6 +20,9 @@ namespace VatTools
             this.InitializeComponent();
             FreqInfoGrid.ItemsSource = null;
             ControllerListGrid.ItemsSource = null;
+            FIRSelection.ItemsSource = DataStorage.FIRList;
+            FIRSelection.DisplayMemberPath = "firName";
+            FIRSelection.SelectedValuePath = "firName";
             ThemeListener listener = new ThemeListener();
             listener.ThemeChanged += Listener_ThemeChanged;
             switch (listener.CurrentThemeName)
@@ -61,7 +51,13 @@ namespace VatTools
         {
             if (string.IsNullOrWhiteSpace(FrequencyBox.Text) || FrequencyBox.Text.Length < 6) return;
             FrequencyChange.Content = "Updating...";
-            Datafeed.DataRetrieval(FrequencyBox.Text);
+            if(FIRSelection.SelectedItem != null)
+            {
+                Datafeed.DataRetrieval(FrequencyBox.Text, Convert.ToString(FIRSelection.SelectedValue));
+            } else
+            {
+                Datafeed.DataRetrieval(FrequencyBox.Text, null);
+            }
             FrequencyChange.Content = "Update Frequency";
             FreqInfoGrid.ItemsSource = DataStorage.PilotList;
             ControllerListGrid.ItemsSource = DataStorage.ControllerList;
@@ -98,7 +94,14 @@ namespace VatTools
                 }
                 if (string.IsNullOrWhiteSpace(FrequencyBox.Text) || FrequencyBox.Text.Length < 6) return;
                 FrequencyChange.Content = "Updating...";
-                Datafeed.DataRetrieval(FrequencyBox.Text);
+                if (FIRSelection.SelectedItem != null)
+                {
+                    Datafeed.DataRetrieval(FrequencyBox.Text, Convert.ToString(FIRSelection.SelectedValue));
+                }
+                else
+                {
+                    Datafeed.DataRetrieval(FrequencyBox.Text, null);
+                }
                 FrequencyChange.Content = "Update Frequency";
                 FreqInfoGrid.ItemsSource = DataStorage.PilotList;
                 ControllerListGrid.ItemsSource = DataStorage.ControllerList;

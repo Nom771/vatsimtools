@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>D732ACD9746C2048C22DE793DD73DBC421642EF1</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>D3E2E889E3FA486B24106B6EB271691B4F1F3D40</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
@@ -29,6 +29,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <AppxPackageDir>C:\Users\miked\Desktop\AppPackage1\</AppxPackageDir>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <PackageCertificateKeyFile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -173,7 +174,6 @@
     <Content Include="Assets\airplane-icon-png-2503.altform-unplated_targetsize-32.png" />
     <Content Include="Assets\airplane-icon-png-2503.altform-unplated_targetsize-48.png" />
     <Content Include="Assets\airplane-icon-png-2503.png" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\airplane-icon-png-2503.scale-100.png" />
     <Content Include="Assets\airplane-icon-png-2503.scale-125.png" />
     <Content Include="Assets\airplane-icon-png-2503.scale-150.png" />

@@ -1,32 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Diagnostics;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.Data.Json;
-using Windows.UI.Xaml.Shapes;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -58,13 +38,26 @@ namespace VatTools
                 {
                     if (Regex.IsMatch(line, @"[a-zA-Z]") && firName == null)
                     {
-                        firName = line.Split("|")[0];
+                        if(line.Split("|")[1] == "1")
+                        {
+                            firName = line.Split("|")[0] + "-OCA";
+                        } else
+                        {
+                            firName = line.Split("|")[0];
+                        }
                     }
                     else if (Regex.IsMatch(line, @"[a-zA-Z]") && firName != null)
                     {
                         DataStorage.FIRList.Add(new FIR(firName, pts.ToArray()));
                         pts.Clear();
-                        firName = line.Split("|")[0];
+                        if (line.Split("|")[1] == "1")
+                        {
+                            firName = line.Split("|")[0] + "-OCA";
+                        }
+                        else
+                        {
+                            firName = line.Split("|")[0];
+                        }
                     }
                     else
                     {

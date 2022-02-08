@@ -19,7 +19,7 @@ namespace VatTools
 {
     public class Datafeed
     {
-        public static void DataRetrieval(string FrequencyBoxText)
+        public static void DataRetrieval(string FrequencyBoxText, string firFence)
         {
             /*
              * MASSIVE credit is due to Marvin K (https://github.com/marvk/vatprism) for assistance with FIR calculation methods
@@ -64,10 +64,24 @@ namespace VatTools
                         if (DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign) != null)
                         {
                             var PilotToAdd = DataStorage.FullDatafeed.Pilots.Find(cs => cs.Callsign == root.Callsign);
-                            /*if (IsInPolygon(
-                                    DataStorage.FIRList.FirstOrDefault(cs => cs.firName == "NAT").firPoints,
+                            if(firFence != null)
+                            {
+                                Debug.WriteLine(firFence);
+                                if (IsInPolygon(
+                                    DataStorage.FIRList.FirstOrDefault(cs => cs.firName == firFence).firPoints,
                                     new PointF(Convert.ToSingle(PilotToAdd.Latitude),
-                                        Convert.ToSingle(PilotToAdd.Longitude))))
+                                    Convert.ToSingle(PilotToAdd.Longitude))))
+                                {
+                                    if (PilotToAdd.FlightPlan == null || string.IsNullOrWhiteSpace(PilotToAdd.FlightPlan.AircraftFaa))
+                                    {
+                                        DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, "NOFP", PilotToAdd.Altitude, PilotToAdd.Groundspeed, "UNK", "NOFP", "NOFP"));
+                                    }
+                                    else
+                                    {
+                                        DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, PilotToAdd.FlightPlan.AssignedTransponder, PilotToAdd.Altitude, PilotToAdd.Groundspeed, PilotToAdd.FlightPlan.AircraftFaa, PilotToAdd.FlightPlan.Departure, PilotToAdd.FlightPlan.Arrival));
+                                    }
+                                }
+                            } else
                             {
                                 if (PilotToAdd.FlightPlan == null || string.IsNullOrWhiteSpace(PilotToAdd.FlightPlan.AircraftFaa))
                                 {
@@ -77,14 +91,6 @@ namespace VatTools
                                 {
                                     DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, PilotToAdd.FlightPlan.AssignedTransponder, PilotToAdd.Altitude, PilotToAdd.Groundspeed, PilotToAdd.FlightPlan.AircraftFaa, PilotToAdd.FlightPlan.Departure, PilotToAdd.FlightPlan.Arrival));
                                 }
-                            }*/
-                            if (PilotToAdd.FlightPlan == null || string.IsNullOrWhiteSpace(PilotToAdd.FlightPlan.AircraftFaa))
-                            {
-                                DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, "NOFP", PilotToAdd.Altitude, PilotToAdd.Groundspeed, "UNK", "NOFP", "NOFP"));
-                            }
-                            else
-                            {
-                                DataStorage.PilotList.Add(new PilotInfo(PilotToAdd.Callsign, PilotToAdd.Transponder, PilotToAdd.FlightPlan.AssignedTransponder, PilotToAdd.Altitude, PilotToAdd.Groundspeed, PilotToAdd.FlightPlan.AircraftFaa, PilotToAdd.FlightPlan.Departure, PilotToAdd.FlightPlan.Arrival));
                             }
                         }
                     }
@@ -99,22 +105,23 @@ namespace VatTools
                 }
             }
         }
-        public static bool IsInPolygon(PointF[] poly, PointF point)
+        // Credits for the PointInPolygon method: https://stackoverflow.com/questions/4243042/c-sharp-point-in-polygon (meowNET's reply) 
+        public static bool IsInPolygon(PointF[] polygon, PointF testPoint)
         {
-            var coef = poly.Skip(1).Select((p, i) =>
-                    (point.Y - poly[i].Y) * (p.X - poly[i].X)
-                    - (point.X - poly[i].X) * (p.Y - poly[i].Y))
-                .ToList();
-
-            if (coef.Any(p => p == 0))
-                return true;
-
-            for (int i = 1; i < coef.Count(); i++)
+            bool result = false;
+            int j = polygon.Count() - 1;
+            for (int i = 0; i < polygon.Count(); i++)
             {
-                if (coef[i] * coef[i - 1] < 0)
-                    return false;
+                if (polygon[i].Y < testPoint.Y && polygon[j].Y >= testPoint.Y || polygon[j].Y < testPoint.Y && polygon[i].Y >= testPoint.Y)
+                {
+                    if (polygon[i].X + (testPoint.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) * (polygon[j].X - polygon[i].X) < testPoint.X)
+                    {
+                        result = !result;
+                    }
+                }
+                j = i;
             }
-            return true;
+            return result;
         }
     }
 }

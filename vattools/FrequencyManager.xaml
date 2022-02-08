@@ -17,7 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="FrequencyBox" Height="35" TextWrapping="Wrap" PlaceholderText="Frequency (HF Frequencies: Add 0's until you get to 6 digits)"  VerticalAlignment="Top" Margin="435,10,11,0" TextAlignment="Left" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="FrequencyBox" Height="35" TextWrapping="Wrap" PlaceholderText="Frequency (HF Frequencies: Add 0's until you get to 6 digits)"  VerticalAlignment="Top" Margin="535,10,11,0" TextAlignment="Left" Grid.ColumnSpan="2"/>
         <controls:DataGrid x:Name="FreqInfoGrid" BorderBrush="#FF4B4B4B" BorderThickness="3,3,3,3" Margin="10,50,0,10" IsReadOnly="True" AutoGenerateColumns="False">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Header="Callsign" Binding="{Binding Callsign}" Tag="Callsign"/>
@@ -37,8 +37,9 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
         <Button x:Name="FrequencyChange" Content="Update Frequency" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="140" Click="FrequencyChange_Click" HorizontalContentAlignment="Center"/>
-        <Button x:Name="DataClearing" Content="Clear Data" Margin="155,10,0,0" VerticalAlignment="Top" Click="ClearData" HorizontalContentAlignment="Center" Width="90" Height="35"/>
-        <CheckBox x:Name="AutoRefresh" Checked="AutoRefresh_OnChecked" Unchecked="AutoRefresh_OnUnchecked" Content="Auto Refresh" Margin="250,11,0,0" VerticalAlignment="Top" Width="113"/>
-        <TextBox x:Name="RefreshDelay" PlaceholderText="Time (s)" HorizontalAlignment="Left" Margin="362,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="68"/>
+        <Button x:Name="DataClearing" Content="Clear Data" Margin="155,10,0,0" VerticalAlignment="Top" Click="ClearData" HorizontalContentAlignment="Center" Width="94" Height="35"/>
+        <CheckBox x:Name="AutoRefresh" Checked="AutoRefresh_OnChecked" Unchecked="AutoRefresh_OnUnchecked" Content="Auto Refresh" Margin="350,12,0,0" VerticalAlignment="Top" Width="113"/>
+        <TextBox x:Name="RefreshDelay" PlaceholderText="Time (s)" HorizontalAlignment="Left" Margin="462,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="35" Width="68"/>
+        <ComboBox x:Name="FIRSelection" PlaceholderText="FIR" Margin="255,10,0,0" Width="90" Height="36"/>
     </Grid>
 </Page>

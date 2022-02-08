@@ -8,7 +8,7 @@
 
   <Identity
     Name="9444VATTools.VATTools"
-    Publisher="CN=416CF92B-691D-490F-84A3-0048D650FFCA"
+    Publisher="CN=miked"
     Version="1.0.5.0" />
 
   <mp:PhoneIdentity PhoneProductId="822c0195-5fe1-4ee5-a1fa-c3ad2b74b023" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
