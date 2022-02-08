@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <NavigationView x:Name="MainNavigationView" Loaded="NavigationView_Loaded"  SelectionChanged="PageNavigation" FlowDirection="LeftToRight" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False">
         <NavigationView.MenuItems>
-            <NavigationViewItem Icon="World" Content="Frequency Manager" Tag="Frequency"/>
+            <NavigationViewItem Icon="FourBars" Content="Frequency Manager" Tag="Frequency"/>
         </NavigationView.MenuItems>
         <ScrollViewer>
             <Frame x:Name="ContentFrame"/>
